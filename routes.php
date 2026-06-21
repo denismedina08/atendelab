@@ -1,38 +1,71 @@
 <?php
 
-// carrega os controllers 
-require_once __DIR__ . '\app\Controllers\UsuariosController.php';
-require_once __DIR__ . '\app\Controllers\PessoasController.php';
+require_once __DIR__ . '/app/Controllers/AuthController.php';
+require_once __DIR__ . '/app/Controllers/UsuariosController.php';
+require_once __DIR__ . '/app/Middleware/auth.php';
 
+$controller = $_GET['controller'] ?? 'auth';
+$action = $_GET['action'] ?? 'login';
 
-// define controller e action por query string
-// exemplo: ?controller=usuarios&action=listar
-$controllerName = $_GET['controller'] ?? 'home';
-$action = $_GET['action'] ?? 'index';
+switch ($controller) {
+    case 'auth':
+        $authController = new AuthController();
 
-// o nome da classe do controller em si, para a validação do class_exists
-// exemplo: transforma usuarios em UsuariosController
-$controllerClass = ucfirst($controllerName) . 'Controller';
+        switch ($action) {
+            case 'login':
+                $authController->exibirLogin();
+                break;
 
+            case 'entrar':
+                $authController->entrar();
+                break;
 
-// verifica se a classe existe
-if (!class_exists($controllerClass)) {
-    http_response_code(400);
-    echo json_encode(['erro' => 'Controller não encontrado.']);
-    exit;
-} 
+            case 'dashboard':
+                $authController->dashboard();
+                break;
 
-// instancia do controller, que pode receber qualquer contorller
-$controllerInstance = new $controllerClass();
-    
-// verifica se o método existe
-if (!method_exists($controllerInstance, $action)) {
-    http_response_code(400);
-    echo json_encode(['erro' => 'Action não encontrado.']);
-    exit;
-} 
-    
-// executa o método 
-$controllerInstance->$action();
+            case 'logout':
+                $authController->logout();
+                break;
 
-?>
+            default:
+                http_response_code(404);
+                echo 'Acao de autenticacao nao encontrada.';
+        }
+        break;
+
+    case 'usuarios':
+        exigirAutenticacao();
+        $usuariosController = new UsuariosController();
+
+        switch ($action) {
+            case 'listar':
+                $usuariosController->listar();
+                break;
+
+            case 'buscarPorId':
+                $usuariosController->buscarPorId();
+                break;
+
+            case 'criar':
+                $usuariosController->criar();
+                break;
+
+            case 'atualizar':
+                $usuariosController->atualizar();
+                break;
+
+            case 'excluir':
+                $usuariosController->excluir();
+                break;
+
+            default:
+                http_response_code(404);
+                echo 'Acao de usuarios nao encontrada.';
+        }
+        break;
+
+    default:
+        http_response_code(404);
+        echo 'Controller nao encontrado.';
+}

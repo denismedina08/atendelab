@@ -27,3 +27,14 @@ Software.
 4. Criar o banco atendelab.
 5. Importar o script database/atendelab.sql.
 6. Acessar http://localhost/atendelab/public/
+
+## Acesso ao sistema
+
+A tela de login é exibida automaticamente ao abrir o sistema
+Inserir as credenciais de acesso previamente cadastradas.
+
+Campo   Campo
+Email | -------
+Senha | -------
+
+Usuários com status `inativo` não conseguem acessar o sistema mesmo com credenciais corretas.
