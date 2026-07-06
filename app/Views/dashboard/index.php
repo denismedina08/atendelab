@@ -1,75 +1,80 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard – AtendeLab</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-        .navbar {
-            background-color: #222 !important; 
-            /* Prioridad Elevada */
-        }
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-        .card-body {
-            padding: 1.5rem;
-        }
-        .btn-primary {
-            background-color: #333;
-            border-color: #333;
-            font-size: 0.875rem;
-        }
-        .btn-primary:hover {
-            background-color: #111;
-            border-color: #111;
-        }
-        .btn-outline-light {
-            font-size: 0.8rem;
-        }
-    </style>
-</head>
-<body>
+<?php
+$tituloPagina = 'Dashboard';
+require __DIR__ . '/../layouts/header.php';
+?>
 
-<nav class="navbar navbar-dark">
-    <div class="container">
-        <span class="navbar-brand" style="font-size: 1rem;">AtendeLab</span>
-        <a class="btn btn-outline-light btn-sm"
-            href="?controller=auth&action=logout">
-            Sair
-        </a>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h1 class="h3 mb-1">Dashboard</h1>
+        <p class="text-secondary mb-0">Resumo dos atendimentos acadêmicos.</p>
     </div>
-</nav>
+</div>
 
-<div class="container mt-4">
-    <div class="card shadow-none">
-        <div class="card-body">
-            <h1 class="h5 mb-3">Área restrita</h1>
-                <?php if ($usuario['perfil'] === 'admin'): ?>
-                    <p class="mb-1" style="font-size: 0.9rem;">
-                        Bem-vindo, <strong><?= htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8') ?></strong>
-                        Você tem acesso total no sistema
-                    </p>
-                <?php else: ?>
-                    <p class="mb-1" style="font-size: 0.9rem;">
-                        Bem-vindo, <strong><?= htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8') ?></strong>
-                    </p>
-                <?php endif; ?>
-                <p class="text-muted mb-3" style="font-size: 0.85rem;">
-                    Perfil: <?= htmlspecialchars($usuario['perfil'], ENT_QUOTES, 'UTF-8') ?>
-                </p>
-            <a class="btn btn-primary"
-                href="?controller=usuarios&action=listar">
-                Testar rota protegida de usuários
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-secondary small">Pessoas cadastradas</div>
+                <div class="display-6 fw-semibold" id="totalPessoas">...</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-secondary small">Tipos de atendimento</div>
+                <div class="display-6 fw-semibold" id="totalTipos">...</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-secondary small">Atendimentos registrados</div>
+                <div class="display-6 fw-semibold" id="totalAtendimentos">...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="h5">Acesso rápido</h2>
+        <p class="text-secondary">Use os módulos abaixo para cadastrar e consultar dados reais do banco.</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-atendelab"
+                href="<?= $baseUrl ?>?controller=frontend&action=pessoas">
+                Gerenciar pessoas
+            </a>
+            <a class="btn btn-outline-atendelab"
+                href="<?= $baseUrl ?>?controller=frontend&action=tipos">
+                Gerenciar tipos
+            </a>
+            <a class="btn btn-outline-atendelab"
+                href="<?= $baseUrl ?>?controller=frontend&action=atendimentos">
+                Registrar atendimentos
             </a>
         </div>
     </div>
 </div>
 
-</body>
-</html>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const resposta = await AtendeLabApi.get('dashboard', 'resumo');
+        const ind = resposta.indicadores || {};
+
+        document.getElementById('totalPessoas').textContent      = ind.total_pessoas      ?? '0';
+        document.getElementById('totalTipos').textContent        = ind.total_tipos        ?? '0';
+        document.getElementById('totalAtendimentos').textContent = ind.total_atendimentos ?? '0';
+
+    } catch (error) {
+        document.getElementById('totalPessoas').textContent      = '!';
+        document.getElementById('totalTipos').textContent        = '!';
+        document.getElementById('totalAtendimentos').textContent = '!';
+        console.error('Erro ao carregar dashboard:', error.message);
+    }
+});
+</script>
+
+<?php require __DIR__ . '/../layouts/footer.php'; ?>

@@ -1,24 +1,19 @@
 # AtendeLab
-Sistema de Controle de Atendimentos Acadêmicos desenvolvido na disciplina de Fábrica de
-Software.
 
-## Tecnologias utilizadas
-- PHP 8.x
-- MySQL
-- phpMyAdmin
-- HTML
-- CSS
-- Bootstrap
-- Git e GitHub
+<!-- Sistema de Controle de Atendimentos Acadêmicos -->
 
-## Funcionalidades previstas
-- Página pública
-- Login
-- Dashboard
-- Cadastro de pessoas atendidas
-- Cadastro de tipos de atendimento
-- Registro de atendimentos
-- Relatórios
+## Tecnologias
+
+- PHP 8.x + PDO
+- MySQL (XAMPP porta 3307)
+- HTML + CSS + Bootstrap 5.3
+- JavaScript + Fetch API (x-www-form-urlencoded)
+- Arquitetura MVC simples (sem framework)
+
+### Pré-requisitos
+
+- XAMPP com Apache e MySQL ativos
+- MySQL rodando na **porta 3307**
 
 ## Como executar localmente
 1. Clonar o repositório.
@@ -38,3 +33,27 @@ Email | -------
 Senha | -------
 
 Usuários com status `inativo` não conseguem acessar o sistema mesmo com credenciais corretas.
+
+## URLs principais
+
+Login                 `/atendelab/public/?controller=auth&action=login`
+Dashboard             `/atendelab/public/?controller=auth&action=dashboard`
+Pessoas (visual)      `/atendelab/public/?controller=frontend&action=pessoas`
+Tipos (visual)        `/atendelab/public/?controller=frontend&action=tipos`
+Atendimentos (visual) `/atendelab/public/?controller=frontend&action=atendimentos`
+Dashboard JSON        `/atendelab/public/?controller=dashboard&action=resumo`
+Pessoas JSON          `/atendelab/public/?controller=pessoas&action=listar`
+Tipos JSON            `/atendelab/public/?controller=tipos&action=listar`
+Atendimentos JSON     `/atendelab/public/?controller=atendimentos&action=listar`
+
+## Fluxo técnico
+
+Navegador
+  -> public/index.php
+  -> routes.php (?controller=X&action=Y)
+  -> Middleware (exigirAutenticacao)
+  -> Controller::metodo()
+  -> PDO -> banco atendelab
+  -> JSON
+  -> api.js (AtendeLabApi)
+  -> Tela atualizada
