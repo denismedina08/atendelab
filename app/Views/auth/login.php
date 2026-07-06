@@ -1,85 +1,60 @@
-<!doctype html>
-<html lang="pt-br">
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/../layouts/config-view.php';
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login – AtendeLab</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar | AtendeLab</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f5f5f5;
-            margin: 0;
-        }
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-        .card-body {
-            padding: 2rem;
-        }
-        .btn-primary {
-            background-color: #333;
-            border-color: #333;
-        }
-        .btn-primary:hover {
-            background-color: #111;
-            border-color: #111;
-        }
-        .form-control:focus {
-            border-color: #aaa;
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
-        }
-    </style>
+    <link rel="stylesheet" href="/atendelab/public/assets/css/style.css">
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="h5 mb-1 fw-bold">AtendeLab</h1>
-                        <p class="text-muted mb-4" style="font-size: 0.9rem;">
-                            Informe suas credenciais para acessar o sistema
-                        </p>
+<body class="bg-light">
 
-                        <?php if (!empty($erro)): ?>
-                            <div class="alert alert-danger py-2" style="font-size: 0.875rem;">
-                                <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($mensagem)): ?>
-                            <div class="alert alert-success py-2" style="font-size: 0.875rem;">
-                                <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
-                            </div>
-                        <?php endif; ?>
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-4">
+    <div class="card border-0 shadow-sm login-card">
+        <div class="card-body p-4 p-md-5">
 
-                        <form method="POST" action="?controller=auth&action=entrar">
-                            <div class="mb-3">
-                                <label for="email" class="form-label text-muted" style="font-size: 0.875rem;">E-mail</label>
-                                <input type="email" name="email" id="email"
-                                        class="form-control"
-                                        placeholder="inserir@email.com"
-                                        required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="senha" class="form-label text-muted" style="font-size: 0.875rem;">Senha</label>
-                                <input type="password" name="senha" id="senha"
-                                        class="form-control"
-                                        placeholder="senha"
-                                        required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100 mt-2">
-                                Entrar
-                            </button>
-                        </form>
-                    </div>
-                </div>
+            <div class="text-center mb-4">
+                <div class="brand-mark mx-auto mb-3">AL</div>
+                <h1 class="h3 mb-1">AtendeLab</h1>
+                <p class="text-secondary mb-0">Controle de atendimentos acadêmicos</p>
             </div>
+
+            <?php if (!empty($mensagem)): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars((string) $mensagem, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($erroLogin)): ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars((string) $erroLogin, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" action="<?= $baseUrl ?>?controller=auth&action=entrar">
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" required autofocus>
+                </div>
+                <div class="mb-4">
+                    <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" required>
+                </div>
+                <button class="btn btn-success w-100" type="submit">
+                    Entrar
+                </button>
+            </form>
+
         </div>
     </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

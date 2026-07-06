@@ -1,0 +1,65 @@
+/* Pagina de Estilos Principais */
+
+:root {
+    --atendelab-green: #198754;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.login-card {
+    width: min(100%, 430px);
+}
+
+.brand-mark {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: var(--atendelab-green);
+    color: white;
+    font-weight: 700;
+    letter-spacing: .04em;
+    font-size: 1.1rem;
+}
+
+.card {
+    border-radius: 14px;
+}
+
+.table th {
+    white-space: nowrap;
+}
+
+textarea {
+    resize: vertical;
+}
+
+
+/* Estilo de Cor utilizado no index*/
+
+.btn-atendelab {
+    background-color: #114B5F;
+    border-color: #114B5F;
+    color: #fff;
+}
+.btn-atendelab:hover,
+.btn-atendelab:focus {
+    background-color: #0d3a49;
+    border-color: #0d3a49;
+    color: #fff;
+}
+
+.btn-outline-atendelab {
+    background-color: transparent;
+    border: 1px solid #114B5F;
+    color: #114B5F;
+}
+.btn-outline-atendelab:hover,
+.btn-outline-atendelab:focus {
+    background-color: #114B5F;
+    border-color: #114B5F;
+    color: #fff;
+}
