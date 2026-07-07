@@ -1,7 +1,7 @@
 # AtendeLab
 
 <!-- Sistema de Controle de Atendimentos Acadêmicos -->
-
+LINL DO REPOSITORIO ---> https://github.com/denismedina08/atendelab.git
 ## Tecnologias
 
 - PHP 8.x + PDO
